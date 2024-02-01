@@ -15,7 +15,7 @@ type Props = {
 export default async function RootLayout({ children }: Props) {
 
   return (
-    <html {...stylex.props(s.html, s.reset)} lang="es">
+    <html {...stylex.props(s.html, s.reset)} lang="en">
       <body {...stylex.props(s.reset, s.body)}>
         {children}
       </body>
@@ -37,11 +37,10 @@ const s = stylex.create({
   },
   body: {
     color: colors.black,
-    backgroundColor: colors.bg,
+    backgroundColor: colors.white,
     fontFamily: $.fontSans,
-    maxWidth: $.maxWidth,
     margin: '0 auto',
-    padding: `0 ${spacing.md}`,
+    position: 'relative',
     animationName: fadeIn,
     animationDuration: '2.8s',
     animationFillMode: 'forwards',

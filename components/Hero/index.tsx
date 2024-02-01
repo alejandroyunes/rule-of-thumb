@@ -17,7 +17,7 @@ export default function Hero() {
         width={0}
         height={0}
         fill={true}
-        sizes="(min-width: 756px) 1440px, 100vw"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
 
       <div {...stylex.props(s.heroCardWrapper)}>

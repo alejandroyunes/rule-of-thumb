@@ -16,6 +16,9 @@ export default async function RootLayout({ children }: Props) {
 
   return (
     <html {...stylex.props(s.html, s.reset)} lang="en">
+      <head>
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
+      </head>
       <body {...stylex.props(s.reset, s.body)}>
         {children}
       </body>

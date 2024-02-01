@@ -25,7 +25,7 @@ const styles = stylex.create({
   container: {
     width: '100%',
     position: 'fixed',
-    minHeight: '80px',
+    minHeight: '10rem',
     background: 'linear-gradient(to bottom, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 80%)',
     top: 0,
     zIndex: 2,

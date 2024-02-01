@@ -1,5 +1,6 @@
 import Image from "next/image"
 import * as stylex from "@stylexjs/stylex"
+import CloseSvg from "../assets/CloseSvg"
 
 export default function Banner() {
   return (
@@ -14,7 +15,7 @@ export default function Banner() {
         </p>
       </div>
       <button {...stylex.props(s.iconButton)} aria-label="close">
-        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><g stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd"><path d="M1 19L19 1M1 1l18 18" /></g></svg>
+       <CloseSvg />
       </button>
     </aside>
   )
@@ -24,7 +25,7 @@ const s = stylex.create({
   banner: {
     position: 'relative',
     display: 'flex',
-    width: '1100px',
+    maxWidth: '1100px',
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',

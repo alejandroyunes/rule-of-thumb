@@ -9,9 +9,9 @@ export default CloseSvg
 
 export const s = stylex.create({
   svgStroke: {
-    stroke: colors.white,
+    stroke: colors.black,
   },
   svgFill: {
-    fill: colors.white
+    fill: colors.black
   },
 })

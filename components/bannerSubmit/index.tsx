@@ -1,21 +1,22 @@
 import Image from "next/image"
 import * as stylex from "@stylexjs/stylex"
-
+import img from '../assets/bg-people.png'
 export default function BannerSubmit() {
   return (
     <aside {...stylex.props(s.banner)}>
+      <Image
+        {...stylex.props(s.bannerBackground)} src={img}
+        alt="" role="none" />
+
       <div {...stylex.props(s.bannerLeft)}>
-        <span {...stylex.props(s.bannerHairLine)}>Speak out. Be heard.</span>
-        <span {...stylex.props(s.bannerTitle)} >Be counted</span>
+        <h2 {...stylex.props(s.bannerHeading)}>Is there anyone else you would want us to add?</h2>
       </div>
+
       <div {...stylex.props(s.bannerRight)}>
-        <p {...stylex.props(s.bannerText)}>
-          Rule of Thumb is a crowd sourced court of public opinion where anyone and everyone can speak out and speak freely. It’s easy: You share your opinion, we analyze and put the data in a public report.
-        </p>
+        <button {...stylex.props(s.bannerCta)}>
+          Submit a name
+        </button>
       </div>
-      <button {...stylex.props(s.iconButton)} aria-label="close">
-        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><g stroke="#000" stroke-width="2" fill="none" fill-rule="evenodd"><path d="M1 19L19 1M1 1l18 18" /></g></svg>
-      </button>
     </aside>
   )
 }
@@ -24,42 +25,52 @@ const s = stylex.create({
   banner: {
     position: 'relative',
     display: 'flex',
-    width: '1100px',
+    maxWidth: '1100px',
     overflow: 'hidden',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    flexDirection: {
+      default: null,
+      '@media (max-width: 756px)': 'column'
+    },
     padding: '1rem',
     margin: '0 auto',
     backgroundColor: 'rgba(235, 235, 235, 1)'
   },
-  bannerLeft: {
-    flexBasis: '40%',
-    paddingRight: '1rem'
+  bannerBackground: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    objectFit: 'cover',
+    opacity: '.2',
+    pointerEvents: 'none',
   },
-  bannerHairLine: {
-    color: 'rgba(70, 70, 70, 1)'
-  },
-  bannerTitle: {
-    display: 'block',
+  bannerHeading: {
+    display: 'relative',
+    margin: '0 0 1rem',
     color: 'rgba(70, 70, 70, 1)',
-    fontSize: '2rem',
-    fontWeight: 700,
-    letterSpacing: '-.05rem'
+    FontSize: '2rem',
+    fontWeight: 400,
+  },
+  bannerLeft: {
+    flexBasis: '60%'
   },
   bannerRight: {
-    flexBasis: '60%',
+    flexBasis: '40%'
+
   },
-  bannerText: {
+  bannerCta: {
+    position: 'relative',
     display: 'block',
-    color: 'rgba(70, 70, 70, 1)',
-    fontSize: '1.25rem',
-    fontWeight: 300,
-    letterSpacing: '-.05rem'
-  },
-  iconButton: {
+    width: '100%',
+    padding: '1rem 2rem',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: 'rgba(0, 0, 0, .6)',
     backgroundColor: 'transparent',
-    paddingLeft: 8,
-    margin: 0,
-    border: 'none'
+    color: 'rgba(51, 51, 51, 1)',
+    fontSize: '1.5rem',
   },
+
 })

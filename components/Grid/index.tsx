@@ -8,7 +8,6 @@ import ThumbDown from "../assets/ThumbDown"
 import Image from "next/image"
 import img from '../assets/imgs/Kanye-West.jpg'
 
-
 export default function Grid() {
   const [dropdown, setDropdown] = useState(false)
   const [list, setList] = useState(false)
@@ -22,16 +21,11 @@ export default function Grid() {
   }
 
   const handleVoteClick = () => {
-    console.log('click vote button')
-
     if (voted) {
-      console.log('alraedy voted')
       setVoted(false)
       resetValues()
       return
     }
-
-    console.log('not voted')
     setVoted(true)
     resetValues()
   }
@@ -52,9 +46,6 @@ export default function Grid() {
     setThumbUp(false)
   }
 
-  console.log('thumbUp', thumbUp)
-  console.log('thumbDown', thumbDown)
-
   return (
     <main>
       <div {...stylex.props(s.heading)}>
@@ -72,72 +63,418 @@ export default function Grid() {
         </div>
       </div>
 
-      <div {...stylex.props(s.container)}>
-        <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+      <div {...stylex.props(list ? s.listContainer : s.gridContainer)}>
 
-          <div {...stylex.props(list ? s.voted : s.votedM)}>
 
-            <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
-              <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
-                <ThumbUp />
-              </button>
-              {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+        <div {...stylex.props(s.container)}>
+          <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+
+            <div {...stylex.props(list ? s.voted : s.votedM)}>
+
+              <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+                <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
             <ThumbDown />
               </button> */}
+              </div>
+
+              <div {...stylex.props(s.description)}>
+                <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
+              </div>
+
             </div>
 
-            <div {...stylex.props(s.description)}>
-              <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
-              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
+            <div {...stylex.props(s.vote)}>
+
+              <div {...stylex.props(s.voteParagraph)}>
+                <div {...stylex.props(s.voteP)}>
+                  <p>one month ago</p>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+                <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                  <ThumbDown />
+                </button>
+                <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                  {voted ? 'Vote Again' : 'Vote Now'}
+                </button>
+              </div>
+
+              <div {...stylex.props(s.imageWrapper)}>
+                <Image
+                  {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                  src={img}
+                  width={0}
+                  height={0}
+                  alt=""
+                  role="none" />
+              </div>
+
+              <div {...stylex.props(s.porcentage)}>
+                <div {...stylex.props(s.porcentageLeft)}>
+                  <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                  <span {...stylex.props(s.porcentageText)}>25.5%</span>
+                </div>
+                <div {...stylex.props(s.porcentageRight)}>
+                  <span {...stylex.props(s.porcentageText)}>74.5%</span>
+                  <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
             </div>
 
           </div>
-
-          <div {...stylex.props(s.vote)}>
-
-            <div {...stylex.props(s.voteParagraph)}>
-              <div {...stylex.props(s.voteP)}>
-                <p>one month ago</p>
-              </div>
-            </div>
-
-            <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
-              <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
-                <ThumbUp />
-              </button>
-              <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
-                <ThumbDown />
-              </button>
-              <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
-                {voted ? 'Vote Again' : 'Vote Now'}
-              </button>
-            </div>
-
-            <div {...stylex.props(s.imageWrapper)}>
-              <Image
-                {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
-                src={img}
-                width={0}
-                height={0}
-                alt=""
-                role="none" />
-            </div>
-
-            <div {...stylex.props(s.porcentage)}>
-              <div {...stylex.props(s.porcentageLeft)}>
-                <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
-                <span {...stylex.props(s.porcentageText)}>25.5%</span>
-              </div>
-              <div {...stylex.props(s.porcentageRight)}>
-                <span {...stylex.props(s.porcentageText)}>74.5%</span>
-                <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
-              </div>
-            </div>
-
-            <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
-          </div>
-
         </div>
+
+        <div {...stylex.props(s.container)}>
+          <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+
+            <div {...stylex.props(list ? s.voted : s.votedM)}>
+
+              <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+                <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+            <ThumbDown />
+              </button> */}
+              </div>
+
+              <div {...stylex.props(s.description)}>
+                <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
+              </div>
+
+            </div>
+
+            <div {...stylex.props(s.vote)}>
+
+              <div {...stylex.props(s.voteParagraph)}>
+                <div {...stylex.props(s.voteP)}>
+                  <p>one month ago</p>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+                <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                  <ThumbDown />
+                </button>
+                <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                  {voted ? 'Vote Again' : 'Vote Now'}
+                </button>
+              </div>
+
+              <div {...stylex.props(s.imageWrapper)}>
+                <Image
+                  {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                  src={img}
+                  width={0}
+                  height={0}
+                  alt=""
+                  role="none" />
+              </div>
+
+              <div {...stylex.props(s.porcentage)}>
+                <div {...stylex.props(s.porcentageLeft)}>
+                  <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                  <span {...stylex.props(s.porcentageText)}>25.5%</span>
+                </div>
+                <div {...stylex.props(s.porcentageRight)}>
+                  <span {...stylex.props(s.porcentageText)}>74.5%</span>
+                  <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div {...stylex.props(s.container)}>
+          <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+
+            <div {...stylex.props(list ? s.voted : s.votedM)}>
+
+              <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+                <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+            <ThumbDown />
+              </button> */}
+              </div>
+
+              <div {...stylex.props(s.description)}>
+                <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
+              </div>
+
+            </div>
+
+            <div {...stylex.props(s.vote)}>
+
+              <div {...stylex.props(s.voteParagraph)}>
+                <div {...stylex.props(s.voteP)}>
+                  <p>one month ago</p>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+                <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                  <ThumbDown />
+                </button>
+                <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                  {voted ? 'Vote Again' : 'Vote Now'}
+                </button>
+              </div>
+
+              <div {...stylex.props(s.imageWrapper)}>
+                <Image
+                  {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                  src={img}
+                  width={0}
+                  height={0}
+                  alt=""
+                  role="none" />
+              </div>
+
+              <div {...stylex.props(s.porcentage)}>
+                <div {...stylex.props(s.porcentageLeft)}>
+                  <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                  <span {...stylex.props(s.porcentageText)}>25.5%</span>
+                </div>
+                <div {...stylex.props(s.porcentageRight)}>
+                  <span {...stylex.props(s.porcentageText)}>74.5%</span>
+                  <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div {...stylex.props(s.container)}>
+          <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+
+            <div {...stylex.props(list ? s.voted : s.votedM)}>
+
+              <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+                <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+            <ThumbDown />
+              </button> */}
+              </div>
+
+              <div {...stylex.props(s.description)}>
+                <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
+              </div>
+
+            </div>
+
+            <div {...stylex.props(s.vote)}>
+
+              <div {...stylex.props(s.voteParagraph)}>
+                <div {...stylex.props(s.voteP)}>
+                  <p>one month ago</p>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+                <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                  <ThumbDown />
+                </button>
+                <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                  {voted ? 'Vote Again' : 'Vote Now'}
+                </button>
+              </div>
+
+              <div {...stylex.props(s.imageWrapper)}>
+                <Image
+                  {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                  src={img}
+                  width={0}
+                  height={0}
+                  alt=""
+                  role="none" />
+              </div>
+
+              <div {...stylex.props(s.porcentage)}>
+                <div {...stylex.props(s.porcentageLeft)}>
+                  <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                  <span {...stylex.props(s.porcentageText)}>25.5%</span>
+                </div>
+                <div {...stylex.props(s.porcentageRight)}>
+                  <span {...stylex.props(s.porcentageText)}>74.5%</span>
+                  <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div {...stylex.props(s.container)}>
+          <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+
+            <div {...stylex.props(list ? s.voted : s.votedM)}>
+
+              <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+                <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+            <ThumbDown />
+              </button> */}
+              </div>
+
+              <div {...stylex.props(s.description)}>
+                <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
+              </div>
+
+            </div>
+
+            <div {...stylex.props(s.vote)}>
+
+              <div {...stylex.props(s.voteParagraph)}>
+                <div {...stylex.props(s.voteP)}>
+                  <p>one month ago</p>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+                <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                  <ThumbDown />
+                </button>
+                <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                  {voted ? 'Vote Again' : 'Vote Now'}
+                </button>
+              </div>
+
+              <div {...stylex.props(s.imageWrapper)}>
+                <Image
+                  {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                  src={img}
+                  width={0}
+                  height={0}
+                  alt=""
+                  role="none" />
+              </div>
+
+              <div {...stylex.props(s.porcentage)}>
+                <div {...stylex.props(s.porcentageLeft)}>
+                  <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                  <span {...stylex.props(s.porcentageText)}>25.5%</span>
+                </div>
+                <div {...stylex.props(s.porcentageRight)}>
+                  <span {...stylex.props(s.porcentageText)}>74.5%</span>
+                  <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div {...stylex.props(s.container)}>
+          <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+
+            <div {...stylex.props(list ? s.voted : s.votedM)}>
+
+              <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+                <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+            <ThumbDown />
+              </button> */}
+              </div>
+
+              <div {...stylex.props(s.description)}>
+                <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
+              </div>
+
+            </div>
+
+            <div {...stylex.props(s.vote)}>
+
+              <div {...stylex.props(s.voteParagraph)}>
+                <div {...stylex.props(s.voteP)}>
+                  <p>one month ago</p>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+                <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                  <ThumbUp />
+                </button>
+                <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                  <ThumbDown />
+                </button>
+                <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                  {voted ? 'Vote Again' : 'Vote Now'}
+                </button>
+              </div>
+
+              <div {...stylex.props(s.imageWrapper)}>
+                <Image
+                  {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                  src={img}
+                  width={0}
+                  height={0}
+                  alt=""
+                  role="none" />
+              </div>
+
+              <div {...stylex.props(s.porcentage)}>
+                <div {...stylex.props(s.porcentageLeft)}>
+                  <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                  <span {...stylex.props(s.porcentageText)}>25.5%</span>
+                </div>
+                <div {...stylex.props(s.porcentageRight)}>
+                  <span {...stylex.props(s.porcentageText)}>74.5%</span>
+                  <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+                </div>
+              </div>
+
+              <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
 
@@ -146,10 +483,22 @@ export default function Grid() {
 }
 
 const s = stylex.create({
+  gridContainer: {
+    display: 'grid',
+    gridTemplateColumns: {
+      default: '1fr 1fr 1fr',
+      '@media (max-width: 1100px)': '1fr 1fr',
+      '@media (max-width: 756px)': '1fr',
+    },
+
+  },
+  listContainer: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+  },
   container: {
     margin: '0 24px',
   },
-
   wrapper: {
     display: 'grid',
     gridTemplateColumns: '1fr .3fr',

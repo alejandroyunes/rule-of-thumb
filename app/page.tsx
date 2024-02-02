@@ -5,6 +5,8 @@ import * as stylex from "@stylexjs/stylex"
 import { spacing } from "./globalTokens.stylex"
 import Banner from "@/components/banner"
 import BannerSubmit from "@/components/bannerSubmit"
+import Footer from "@/components/footer"
+import Grid from "@/components/Grid"
 
 export default function Home() {
   return (
@@ -16,8 +18,10 @@ export default function Home() {
         <MobileNav />
       </div>
       <Hero />
-      <Banner />
+      {/* <Banner /> */}
+      <Grid />
       <BannerSubmit />
+      <Footer />
     </>
   )
 }

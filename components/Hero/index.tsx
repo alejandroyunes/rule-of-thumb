@@ -110,7 +110,6 @@ const s = stylex.create({
     height: '140%',
     backdropFilter: 'blur(10px)',
     background: `linear-gradient( rgba(0, 0, 0, .4), rgba(0, 0, 0, .4))`,
-    border: '2px solid green'
   },
   cardHairLine: {
     fontWeight: 300,

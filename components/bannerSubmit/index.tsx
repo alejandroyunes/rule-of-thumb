@@ -34,7 +34,7 @@ const s = stylex.create({
       '@media (max-width: 756px)': 'column'
     },
     padding: '1rem',
-    margin: '0 auto',
+    margin: '24px auto',
     backgroundColor: 'rgba(235, 235, 235, 1)'
   },
   bannerBackground: {

@@ -501,12 +501,25 @@ const s = stylex.create({
   },
   wrapper: {
     display: 'grid',
-    gridTemplateColumns: '1fr .3fr',
-    maxWidth: 1100,
+    gridTemplateColumns: {
+      default: '1fr .3fr',
+      '@media (max-width: 756px)': 'none',
+    },
+    gridTemplateRows: {
+      default: 'none',
+      '@media (max-width: 756px)': '1fr 1fr'
+    },
+    maxWidth: {
+      default: 1100,
+      '@media (max-width: 756px)': 400,
+    },
     margin: '0 auto 24px',
     paddingRight: 24,
     position: 'relative',
-    height: 210,
+    height: {
+      default: 210,
+      '@media (max-width: 756px)': 400,
+    },
   },
   wrapperM: {
     display: 'grid',
@@ -520,6 +533,10 @@ const s = stylex.create({
   voted: {
     display: 'flex',
     zIndex: 5,
+    marginTop: {
+      default: null,
+      '@media (max-width: 756px)': 110
+    }
   },
   votedM: {
     display: 'flex',
@@ -533,14 +550,20 @@ const s = stylex.create({
   },
   descriptionH1: {
     padding: 0,
-    margin: '24px 0'
+    margin: {
+      default: '24px 0',
+      '@media (max-width: 756px)': 0,
+    }
   },
   descriptionH1M: {
     padding: 0,
     margin: 0
   },
   votedLeft: {
-    marginRight: '30%'
+    marginRight: {
+      default: '30%',
+      '@media (max-width: 756px)': '2%',
+    }
   },
   votedLeftM: {
     marginRight: '2%'
@@ -559,21 +582,28 @@ const s = stylex.create({
   },
   voteBottons: {
     display: 'flex',
+    justifyContent: {
+      default: null,
+      '@media (max-width: 756px)': 'flex-end'
+    }
   },
   voteBottonsM: {
     display: 'flex',
     justifyContent: 'flex-end'
   },
-  cardButtonIconM: {
-    width: '50px',
+  cardButtonIcon: {
+    width: {
+      default: '80px',
+      '@media (max-width: 756px)': '50px'
+    },
     height: '50px',
     cursor: 'pointer',
     border: 'none',
     marginRight: 8,
     zIndex: 5
   },
-  cardButtonIcon: {
-    width: '80px',
+  cardButtonIconM: {
+    width: '50px',
     height: '50px',
     cursor: 'pointer',
     border: 'none',
@@ -605,6 +635,21 @@ const s = stylex.create({
 
     }
   },
+  voteButton: {
+    padding: '.5rem 1rem',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    width: {
+      default: '100%',
+      '@media (max-width: 756px)': '120px'
+    },
+    borderColor: colors.white,
+    backgroundColor: 'rgba(0, 0, 0, .3)',
+    color: colors.white,
+    fontSize: '1rem',
+    zIndex: 5,
+    cursor: 'pointer'
+  },
   voteButtonM: {
     padding: '.5rem 1rem',
     borderStyle: 'solid',
@@ -616,18 +661,6 @@ const s = stylex.create({
     fontSize: '1rem',
     zIndex: 5,
     cursor: 'pointer',
-  },
-  voteButton: {
-    padding: '.5rem 1rem',
-    borderStyle: 'solid',
-    borderWidth: 2,
-    width: '100%',
-    borderColor: colors.white,
-    backgroundColor: 'rgba(0, 0, 0, .3)',
-    color: colors.white,
-    fontSize: '1rem',
-    zIndex: 5,
-    cursor: 'pointer'
   },
   //bottom section
   porcentage: {
@@ -698,6 +731,21 @@ const s = stylex.create({
     left: 0,
     objectFit: 'cover',
   },
+  bgLinear: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    background: {
+      default: 'linear-gradient(90deg, rgba(209,208,208,0.2) 0%, rgba(122,118,118,1) 26%, rgba(104,99,99,1) 46%, rgba(144,139,139,1) 100%, rgba(178,178,178,1) 100%)',
+      '@media (max-width: 756px)': 'rgba(0,0,0, 0.3)'
+    },
+    zIndex: 2,
+    height: {
+      default: 210,
+      '@media (max-width: 756px)': 400
+    },
+  },
   bgLinearM: {
     width: '100%',
     position: 'absolute',
@@ -707,23 +755,20 @@ const s = stylex.create({
     height: 400,
     background: 'rgba(0,0,0, 0.3)',
   },
-  bgLinear: {
-    width: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    background: 'linear-gradient(90deg, rgba(209,208,208,0.2) 0%, rgba(122,118,118,1) 26%, rgba(104,99,99,1) 46%, rgba(144,139,139,1) 100%, rgba(178,178,178,1) 100%)',
-    zIndex: 2,
-    height: 210,
+  imgBackground: {
+    width: {
+      default: 260,
+      '@media (max-width: 756px)': '100%'
+    },
+    height: {
+      default: 210,
+      '@media (max-width: 756px)': 400
+    },
+    objectFit: 'cover'
   },
   imgBackgroundM: {
     width: '100%',
     height: 400,
-    objectFit: 'cover'
-  },
-  imgBackground: {
-    width: 260,
-    height: 210,
     objectFit: 'cover'
   },
   //header

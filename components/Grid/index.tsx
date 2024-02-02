@@ -74,6 +74,8 @@ export default function Grid() {
             <Image
               {...stylex.props(s.imgBackground)}
               src={img}
+              width={0}
+              height={0}
               alt=""
               role="none" />
           </div>
@@ -103,12 +105,12 @@ export default function Grid() {
 const s = stylex.create({
   wrapper: {
     display: 'grid',
-    gridTemplateColumns: '.4fr 1fr .3fr',
+    gridTemplateColumns: '.2fr 1fr .4fr',
     maxWidth: 1100,
     margin: '0 auto 24px',
     paddingRight: 24,
     position: 'relative',
-    height: 230,
+    height: 210,
   },
   voted: {
     display: 'flex',
@@ -134,8 +136,8 @@ const s = stylex.create({
     display: 'flex',
   },
   cardButtonIcon: {
-    width: '50px',
-    height: '35px',
+    width: '80px',
+    height: '50px',
     cursor: 'pointer',
     border: 'none',
     marginRight: 8,
@@ -170,7 +172,8 @@ const s = stylex.create({
     backgroundColor: 'rgba(0, 0, 0, .3)',
     color: colors.white,
     fontSize: '1rem',
-    zIndex: 5
+    zIndex: 5,
+    cursor: 'pointer'
   },
   //bottom section
   porcentage: {
@@ -233,8 +236,6 @@ const s = stylex.create({
     fontWeight: 300,
     color: 'rgba(70, 70, 70, 1)'
   },
-
-
   //background img
   imageWrapper: {
     maxWidth: 1100,
@@ -249,14 +250,14 @@ const s = stylex.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    background: 'linear-gradient(90deg, rgba(209,208,208,0.2) 0%, rgba(122,118,118,1) 52%, rgba(144,139,139,1) 100%, rgba(178,178,178,1) 100%)',
+    background: 'linear-gradient(90deg, rgba(209,208,208,0.2) 0%, rgba(122,118,118,1) 26%, rgba(104,99,99,1) 46%, rgba(144,139,139,1) 100%, rgba(178,178,178,1) 100%)',
     zIndex: 2,
-    height: 230,
+    height: 210,
   },
 
   imgBackground: {
     width: 260,
-    height: 230,
+    height: 210,
     objectFit: 'cover'
   },
   heading: {

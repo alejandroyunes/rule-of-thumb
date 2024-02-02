@@ -348,7 +348,7 @@ export default function Grid() {
 
 const s = stylex.create({
   main: {
-    margin:'0 24px'
+    margin: '0 24px'
   },
   overFlow: {
     margin: {
@@ -384,7 +384,6 @@ const s = stylex.create({
   },
 
   gridContainer: {
-    outline: '3px solid pink',
     display: 'grid',
     margin: '0 auto',
     gridTemplateColumns: {
@@ -394,7 +393,6 @@ const s = stylex.create({
     },
   },
   listContainer: {
-    outline: '3px solid green',
     display: 'grid',
     gridTemplateColumns: {
       default: '1fr',
@@ -407,10 +405,6 @@ const s = stylex.create({
       default: 1100,
       '@media (max-width: 756px)': 400
     },
-    width: {
-      default: null,
-      '@media (max-width: 756px)': 360
-    }
   },
   wrapper: {
     display: 'grid',
@@ -433,6 +427,10 @@ const s = stylex.create({
       default: 210,
       '@media (max-width: 756px)': 400,
     },
+    width: {
+      default: null,
+      '@media (max-width: 756px)': 320
+    }
   },
   wrapperM: {
     display: 'grid',
@@ -442,6 +440,10 @@ const s = stylex.create({
     paddingRight: 24,
     position: 'relative',
     height: 400,
+    width: {
+      default: 348,
+      '@media (max-width: 756px)': 320
+    }
   },
   voted: {
     display: 'flex',
@@ -697,6 +699,10 @@ const s = stylex.create({
     fontSize: '1.25rem'
   },
   headingRight: {
+    display: {
+      default: 'block',
+      '@media (max-width: 756px)': 'none'
+    }
   },
   headingUnorder: {
     borderStyle: 'solid',

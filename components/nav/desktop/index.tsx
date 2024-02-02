@@ -57,7 +57,7 @@ const styles = stylex.create({
     display: "flex",
     alignItems: "center",
     fontSize: 24,
-    color: colors.white
+    color: colors.white,
   },
   right: {
     display: "flex",

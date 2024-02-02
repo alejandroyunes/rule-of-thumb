@@ -28,7 +28,7 @@ const styles = stylex.create({
     minHeight: '10rem',
     background: 'linear-gradient(to bottom, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, 0) 80%)',
     top: 0,
-    zIndex: 2,
+    zIndex: 6,
   },
   wrapper: {
     display: "flex",

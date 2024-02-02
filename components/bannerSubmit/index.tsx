@@ -3,29 +3,36 @@ import * as stylex from "@stylexjs/stylex"
 import img from '../assets/bg-people.png'
 export default function BannerSubmit() {
   return (
-    <aside {...stylex.props(s.banner)}>
-      <Image
-        {...stylex.props(s.bannerBackground)} src={img}
-        alt="" role="none" />
+    <aside {...stylex.props(s.container)}>
+      <div {...stylex.props(s.banner)}>
+        <Image
+          {...stylex.props(s.bannerBackground)} src={img}
+          alt="" role="none" />
 
-      <div {...stylex.props(s.bannerLeft)}>
-        <h2 {...stylex.props(s.bannerHeading)}>Is there anyone else you would want us to add?</h2>
-      </div>
+        <div {...stylex.props(s.bannerLeft)}>
+          <h2 {...stylex.props(s.bannerHeading)}>Is there anyone else you would want us to add?</h2>
+        </div>
 
-      <div {...stylex.props(s.bannerRight)}>
-        <button {...stylex.props(s.bannerCta)}>
-          Submit a name
-        </button>
+        <div {...stylex.props(s.bannerRight)}>
+          <button {...stylex.props(s.bannerCta)}>
+            Submit a name
+          </button>
+        </div>
       </div>
     </aside>
   )
 }
 
 const s = stylex.create({
+  container: {
+    margin: '24px',
+
+  },
   banner: {
+    margin: '0 auto',
+    maxWidth: '1100px',
     position: 'relative',
     display: 'flex',
-    maxWidth: '1100px',
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -34,7 +41,6 @@ const s = stylex.create({
       '@media (max-width: 756px)': 'column'
     },
     padding: '1rem',
-    margin: '24px auto',
     backgroundColor: 'rgba(235, 235, 235, 1)'
   },
   bannerBackground: {

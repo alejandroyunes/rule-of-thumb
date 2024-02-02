@@ -17,11 +17,11 @@ export default function Home() {
       <div {...stylex.props(s.mobileNav)}>
         <MobileNav />
       </div>
-      <Hero />
+      {/* <Hero /> */}
       {/* <Banner /> */}
       <Grid />
-      <BannerSubmit />
-      <Footer />
+      {/* <BannerSubmit /> */}
+      {/* <Footer /> */}
     </>
   )
 }

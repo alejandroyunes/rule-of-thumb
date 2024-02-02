@@ -10,11 +10,50 @@ import img from '../assets/imgs/Kanye-West.jpg'
 
 
 export default function Grid() {
-  const [dropdown, setDropdown] = useState(true)
+  const [dropdown, setDropdown] = useState(false)
+  const [list, setList] = useState(false)
+  const [thumbUp, setThumbUp] = useState(false)
+  const [thumbDown, setThumbDown] = useState(false)
+  const [voted, setVoted] = useState(false)
 
-  const handleClick = () => {
-    console.log('click')
+  const resetValues = () => {
+    setThumbDown(false)
+    setThumbUp(false)
   }
+
+  const handleVoteClick = () => {
+    console.log('click vote button')
+
+    if (voted) {
+      console.log('alraedy voted')
+      setVoted(false)
+      resetValues()
+      return
+    }
+
+    console.log('not voted')
+    setVoted(true)
+    resetValues()
+  }
+
+  const selectedThumbUp = () => {
+    if (voted) {
+      return
+    }
+    setThumbUp(!thumbUp)
+    setThumbDown(false)
+  }
+
+  const selectedThumbDown = () => {
+    if (voted) {
+      return
+    }
+    setThumbDown(!thumbDown)
+    setThumbUp(false)
+  }
+
+  console.log('thumbUp', thumbUp)
+  console.log('thumbDown', thumbDown)
 
   return (
     <main>
@@ -26,76 +65,80 @@ export default function Grid() {
           <ul {...stylex.props(s.headingUnorder)} onClick={() => setDropdown(!dropdown)}>
             <li {...stylex.props(s.headingList)}>Grid <span {...stylex.props(s.headingListTitle)}> <DownArrow /> </span></li>
           </ul>
-          <ul {...stylex.props(s.headingUnorderDropdown, dropdown && s.closeDropdown)}>
-            <li {...stylex.props(s.headingList, s.listFc)}>List</li>
-            <li {...stylex.props(s.headingList)}>Grid</li>
+          <ul {...stylex.props(s.headingUnorderDropdown, !dropdown && s.closeDropdown)}>
+            <li {...stylex.props(s.headingList, s.listFc)} onClick={() => { setList(true), setDropdown(false) }}>List</li>
+            <li {...stylex.props(s.headingList)} onClick={() => { setList(false), setDropdown(false) }} >Grid</li>
           </ul>
         </div>
       </div>
 
-      <div {...stylex.props(s.wrapper)}>
+      <div {...stylex.props(s.container)}>
+        <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
 
-        <div {...stylex.props(s.voted)}>
+          <div {...stylex.props(list ? s.voted : s.votedM)}>
 
-          <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
-            <ThumbUp />
-          </button>
-          {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+            <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+              <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                <ThumbUp />
+              </button>
+              {/* <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
             <ThumbDown />
               </button> */}
-        </div>
-
-        <div {...stylex.props(s.description)}>
-          <h1>Kenye West</h1>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
-        </div>
-
-        <div {...stylex.props(s.vote)}>
-
-          <div {...stylex.props(s.voteParagraph)}>
-            <div {...stylex.props(s.voteP)}>
-              <p>one month ago</p>
             </div>
-          </div>
 
-          <div {...stylex.props(s.voteBottons)}>
-            <button {...stylex.props(s.cardButtonIcon, s.thumbUp)} aria-label="thumbs up">
-              <ThumbUp />
-            </button>
-            <button {...stylex.props(s.cardButtonIcon, s.thumbDown)} aria-label="thumbs down">
-              <ThumbDown />
-            </button>
-            <button {...stylex.props(s.voteButton)}>
-              Vote Now
-            </button>
-          </div>
-
-          <div {...stylex.props(s.imageWrapper)}>
-            <Image
-              {...stylex.props(s.imgBackground)}
-              src={img}
-              width={0}
-              height={0}
-              alt=""
-              role="none" />
-          </div>
-
-          <div {...stylex.props(s.porcentage)}>
-            <div {...stylex.props(s.porcentageLeft)}>
-              <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
-              <span {...stylex.props(s.porcentageText)}>25.5%</span>
+            <div {...stylex.props(s.description)}>
+              <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>Kenye West</h1>
+              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fuga, debitis!</p>
             </div>
-            <div {...stylex.props(s.porcentageRight)}>
-              <span {...stylex.props(s.porcentageText)}>74.5%</span>
-              <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
-            </div>
+
           </div>
 
-          <div {...stylex.props(s.bgLinear)}></div>
+          <div {...stylex.props(s.vote)}>
+
+            <div {...stylex.props(s.voteParagraph)}>
+              <div {...stylex.props(s.voteP)}>
+                <p>one month ago</p>
+              </div>
+            </div>
+
+            <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+              <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                <ThumbUp />
+              </button>
+              <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                <ThumbDown />
+              </button>
+              <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                {voted ? 'Vote Again' : 'Vote Now'}
+              </button>
+            </div>
+
+            <div {...stylex.props(s.imageWrapper)}>
+              <Image
+                {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                src={img}
+                width={0}
+                height={0}
+                alt=""
+                role="none" />
+            </div>
+
+            <div {...stylex.props(s.porcentage)}>
+              <div {...stylex.props(s.porcentageLeft)}>
+                <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                <span {...stylex.props(s.porcentageText)}>25.5%</span>
+              </div>
+              <div {...stylex.props(s.porcentageRight)}>
+                <span {...stylex.props(s.porcentageText)}>74.5%</span>
+                <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+              </div>
+            </div>
+
+            <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
+          </div>
+
         </div>
-
       </div>
-
 
 
     </main>
@@ -103,22 +146,55 @@ export default function Grid() {
 }
 
 const s = stylex.create({
+  container: {
+    margin: '0 24px',
+  },
+
   wrapper: {
     display: 'grid',
-    gridTemplateColumns: '.2fr 1fr .4fr',
+    gridTemplateColumns: '1fr .3fr',
     maxWidth: 1100,
     margin: '0 auto 24px',
     paddingRight: 24,
     position: 'relative',
     height: 210,
   },
+  wrapperM: {
+    display: 'grid',
+    gridTemplateRows: '1fr 1fr',
+    maxWidth: 400,
+    margin: '0 auto 24px',
+    paddingRight: 24,
+    position: 'relative',
+    height: 400,
+  },
   voted: {
     display: 'flex',
-    zIndex: 5
+    zIndex: 5,
+  },
+  votedM: {
+    display: 'flex',
+    zIndex: 5,
+    marginTop: 110
   },
   description: {
     color: colors.white,
-    zIndex: 5
+    zIndex: 5,
+    marginRight: 16
+  },
+  descriptionH1: {
+    padding: 0,
+    margin: '24px 0'
+  },
+  descriptionH1M: {
+    padding: 0,
+    margin: 0
+  },
+  votedLeft: {
+    marginRight: '30%'
+  },
+  votedLeftM: {
+    marginRight: '2%'
   },
   vote: {
     color: colors.white,
@@ -134,6 +210,18 @@ const s = stylex.create({
   },
   voteBottons: {
     display: 'flex',
+  },
+  voteBottonsM: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  cardButtonIconM: {
+    width: '50px',
+    height: '50px',
+    cursor: 'pointer',
+    border: 'none',
+    marginRight: 8,
+    zIndex: 5
   },
   cardButtonIcon: {
     width: '80px',
@@ -156,12 +244,29 @@ const s = stylex.create({
       ':hover': 'rgba(60, 187, 180, 1)',
     },
   },
+  thumbUpOutline: {
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: colors.white
+  },
   thumbDown: {
     backgroundColor: {
       default: 'rgba(249, 173, 29, .8)',
       ':hover': 'rgba(249, 173, 29, 1)',
 
     }
+  },
+  voteButtonM: {
+    padding: '.5rem 1rem',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    width: '120px',
+    borderColor: colors.white,
+    backgroundColor: 'rgba(0, 0, 0, .3)',
+    color: colors.white,
+    fontSize: '1rem',
+    zIndex: 5,
+    cursor: 'pointer',
   },
   voteButton: {
     padding: '.5rem 1rem',
@@ -244,7 +349,15 @@ const s = stylex.create({
     left: 0,
     objectFit: 'cover',
   },
-
+  bgLinearM: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 2,
+    height: 400,
+    background: 'rgba(0,0,0, 0.3)',
+  },
   bgLinear: {
     width: '100%',
     position: 'absolute',
@@ -254,19 +367,25 @@ const s = stylex.create({
     zIndex: 2,
     height: 210,
   },
-
+  imgBackgroundM: {
+    width: '100%',
+    height: 400,
+    objectFit: 'cover'
+  },
   imgBackground: {
     width: 260,
     height: 210,
     objectFit: 'cover'
   },
+  //header
   heading: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     maxWidth: '1100px',
     margin: '24px auto',
-    padding: '0 24px'
+    padding: '0 24px',
+    zIndex: 6,
   },
   headingLeft: {
     fontSize: '1.25rem'
@@ -282,7 +401,8 @@ const s = stylex.create({
     display: 'flex',
     margin: '0 1px 0',
     width: 120,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    zIndex: 6,
   },
   headingList: {
     listStyleType: 'none',
@@ -293,7 +413,8 @@ const s = stylex.create({
     ':first-child': {
       borderWidth: 0,
     },
-    margin: 0
+    margin: 0,
+    cursor: 'pointer'
   },
   listFc: {
     borderRightStyle: 'solid',
@@ -305,7 +426,7 @@ const s = stylex.create({
   },
   headingUnorderDropdown: {
     position: 'absolute',
-    zIndex: 4,
+    zIndex: 6,
     backgroundColor: colors.white,
     margin: 0,
     padding: 0,

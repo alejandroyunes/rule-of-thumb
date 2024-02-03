@@ -127,11 +127,11 @@ export default function Grid() {
                     </div>
 
                     <div {...stylex.props(s.porcentage)}>
-                      <div {...stylex.props(s.porcentageLeft)}>
+                      <div {...stylex.props(s.porcentageLeft(person.positivePercentage))}>
                         <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
                         <span {...stylex.props(s.porcentageText)}>{person.positivePercentage}</span>
                       </div>
-                      <div {...stylex.props(s.porcentageRight)}>
+                      <div {...stylex.props(s.porcentageRight(person.negativePercentage))}>
                         <span {...stylex.props(s.porcentageText)}>{person.negativePercentage}</span>
                         <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
                       </div>
@@ -158,19 +158,19 @@ const s = stylex.create({
   overFlow: {
     margin: {
       default: null,
-      '@media (max-width: 756px)': `${spacing.xs} 0`,
+      '@media (max-width: 900px)': `${spacing.xs} 0`,
     },
     width: {
       default: null,
-      '@media (max-width: 756px)': 'auto'
+      '@media (max-width: 900px)': 'auto'
     },
     maxWidth: {
       default: null,
-      '@media (max-width: 756px)': '100%',
+      '@media (max-width: 900px)': '100%',
     },
     overflowX: {
       default: null,
-      '@media (max-width: 756px)': 'scroll'
+      '@media (max-width: 900px)': 'scroll'
     }
   },
 
@@ -179,11 +179,11 @@ const s = stylex.create({
     maxWidth: 1100,
     display: {
       default: 'block',
-      '@media (max-width: 756px)': 'inline-grid'
+      '@media (max-width: 900px)': 'inline-grid'
     },
     gridAutoFlow: {
       default: 'none',
-      '@media (max-width: 756px)': 'column'
+      '@media (max-width: 900px)': 'column'
     },
     gridGap: `${spacing.xxs}`,
     listStyle: 'none',
@@ -195,47 +195,47 @@ const s = stylex.create({
     gridTemplateColumns: {
       default: '1fr 1fr 1fr',
       '@media (max-width: 1100px)': '1fr 1fr',
-      '@media (max-width: 756px)': '1fr',
+      '@media (max-width: 900px)': '1fr',
     },
   },
   listContainer: {
     display: 'grid',
     gridTemplateColumns: {
       default: '1fr',
-      '@media (max-width: 756px)': '1fr'
+      '@media (max-width: 900px)': '1fr'
     },
     margin: '0 auto',
   },
   container: {
     maxWidth: {
       default: 1100,
-      '@media (max-width: 756px)': 400
+      '@media (max-width: 900px)': 400
     },
   },
   wrapper: {
     display: 'grid',
     gridTemplateColumns: {
       default: '1fr .3fr',
-      '@media (max-width: 756px)': 'none',
+      '@media (max-width: 900px)': 'none',
     },
     gridTemplateRows: {
       default: 'none',
-      '@media (max-width: 756px)': '1fr 1fr'
+      '@media (max-width: 900px)': '1fr 1fr'
     },
     maxWidth: {
       default: 1100,
-      '@media (max-width: 756px)': 400,
+      '@media (max-width: 900px)': 400,
     },
     margin: '0 auto 24px',
     paddingRight: 24,
     position: 'relative',
     height: {
-      default: 210,
-      '@media (max-width: 756px)': 400,
+      default: 250,
+      '@media (max-width: 900px)': 528,
     },
     width: {
       default: null,
-      '@media (max-width: 756px)': 320
+      '@media (max-width: 900px)': 320
     }
   },
   wrapperM: {
@@ -248,7 +248,7 @@ const s = stylex.create({
     height: 528,
     width: {
       default: 348,
-      '@media (max-width: 756px)': 320
+      '@media (max-width: 900px)': 320
     }
   },
   voted: {
@@ -256,7 +256,7 @@ const s = stylex.create({
     zIndex: 5,
     marginTop: {
       default: null,
-      '@media (max-width: 756px)': 90
+      '@media (max-width: 900px)': 90
     }
   },
   votedM: {
@@ -273,7 +273,7 @@ const s = stylex.create({
     padding: 0,
     margin: {
       default: '24px 0',
-      '@media (max-width: 756px)': 0,
+      '@media (max-width: 900px)': 0,
     }
   },
   descriptionH1M: {
@@ -283,7 +283,7 @@ const s = stylex.create({
   votedLeft: {
     marginRight: {
       default: '30%',
-      '@media (max-width: 756px)': '2%',
+      '@media (max-width: 900px)': '2%',
     }
   },
   votedLeftM: {
@@ -309,7 +309,7 @@ const s = stylex.create({
     display: 'flex',
     justifyContent: {
       default: null,
-      '@media (max-width: 756px)': 'flex-end'
+      '@media (max-width: 900px)': 'flex-end'
     }
   },
   voteBottonsM: {
@@ -319,7 +319,7 @@ const s = stylex.create({
   cardButtonIcon: {
     width: {
       default: '80px',
-      '@media (max-width: 756px)': '50px'
+      '@media (max-width: 900px)': '50px'
     },
     height: '50px',
     cursor: 'pointer',
@@ -366,7 +366,7 @@ const s = stylex.create({
     borderWidth: 2,
     width: {
       default: '100%',
-      '@media (max-width: 756px)': '120px'
+      '@media (max-width: 900px)': '120px'
     },
     borderColor: colors.white,
     backgroundColor: 'rgba(0, 0, 0, .3)',
@@ -400,9 +400,9 @@ const s = stylex.create({
     right: 0,
     zIndex: 5
   },
-  porcentageLeft: {
+  porcentageLeft: (positivePercentage) => ({
     display: 'flex',
-    width: '30%',
+    width: `${positivePercentage}%`,
     alignItems: 'center',
     justifyContent: 'flex-start',
     padding: '0 .25rem 0 0',
@@ -410,7 +410,7 @@ const s = stylex.create({
     color: colors.white,
     fontWeight: 300,
     paddingLeft: 24
-  },
+  }),
   porcentageLeftIcon: {
     paddingRight: 8
   },
@@ -419,22 +419,22 @@ const s = stylex.create({
     paddingRight: 8,
     fontSize: {
       default: '1.25rem',
-      "@media (max-width: 756px)": '1rem'
+      "@media (max-width: 900px)": '1rem'
     }
   },
-  porcentageRight: {
+  porcentageRight: (negativePercentage) => ({
     paddingLeft: '1rem',
     paddingRight: 24,
     display: 'flex',
     alignItems: 'center',
-    width: '70%',
+    width: `${negativePercentage}%`,
     justifyContent: 'flex-end',
     backgroundColor: 'rgba(249, 173, 29, .8)',
-  },
+  }),
   porcentageRightNumber: {
     fontSize: {
       default: '2rem',
-      "@media (max-width: 756px)": '1.25rem'
+      "@media (max-width: 900px)": '1.25rem'
     },
     fontWeight: 400,
     color: 'rgba(70, 70, 70, 1)',
@@ -443,7 +443,7 @@ const s = stylex.create({
   porcentageIcon: {
     fontSize: {
       default: '2rem',
-      "@media (max-width: 756px)": '1.25rem'
+      "@media (max-width: 900px)": '1.25rem'
     },
     fontWeight: 300,
     color: 'rgba(70, 70, 70, 1)'
@@ -463,12 +463,12 @@ const s = stylex.create({
     left: 0,
     background: {
       default: 'linear-gradient(90deg, rgba(209,208,208,0.2) 0%, rgba(122,118,118,1) 26%, rgba(104,99,99,1) 46%, rgba(144,139,139,1) 100%, rgba(178,178,178,1) 100%)',
-      '@media (max-width: 756px)': 'rgba(0,0,0, 0.3)'
+      '@media (max-width: 900px)': 'rgba(0,0,0, 0.3)'
     },
     zIndex: 2,
     height: {
-      default: 210,
-      '@media (max-width: 756px)': 400
+      default: 250,
+      '@media (max-width: 900px)': 528
     },
   },
   bgLinearM: {
@@ -483,11 +483,11 @@ const s = stylex.create({
   imgBackground: {
     width: {
       default: 260,
-      '@media (max-width: 756px)': '100%'
+      '@media (max-width: 900px)': '100%'
     },
     height: {
-      default: 210,
-      '@media (max-width: 756px)': 400
+      default: 250,
+      '@media (max-width: 900px)': 528
     },
     objectFit: 'cover'
   },
@@ -511,7 +511,7 @@ const s = stylex.create({
   headingRight: {
     display: {
       default: 'block',
-      '@media (max-width: 756px)': 'none'
+      '@media (max-width: 900px)': 'none'
     }
   },
   headingUnorder: {

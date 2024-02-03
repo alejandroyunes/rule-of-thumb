@@ -57,6 +57,7 @@ export default function Grid() {
     setTimeout(() => {
       setOpenEyeBrow(false)
     }, 3000)
+
     setVoteAgainStates((prevStates) => ({
       ...prevStates,
       [id]: !prevStates[id],
@@ -220,11 +221,11 @@ const s = stylex.create({
   eyeBrow: {
     position: "fixed",
     left: 0,
-    top: '-7%',
+    top: '-8%',
     width: '100vw',
     display: 'flex',
     flexDirection: 'column',
-    height: "6%",
+    height: "7%",
     willChange: 'transform',
     backgroundColor: colors.black,
   },

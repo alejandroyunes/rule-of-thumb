@@ -2,7 +2,7 @@
 import * as stylex from "@stylexjs/stylex"
 import { colors, spacing } from "../../app/globalTokens.stylex"
 import DownArrow from "../assets/DownArrow"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ThumbUp from "../assets/ThumbUp"
 import ThumbDown from "../assets/ThumbDown"
 import Image from "next/image"
@@ -23,6 +23,7 @@ export default function Grid() {
   const [list, setList] = useState(false)
   const [disabledButtons, setDisabledButtons] = useState<string[]>([])
   const [voteAgainStates, setVoteAgainStates] = useState<VoteAgainStates>({})
+  const [openEyeBrow, setOpenEyeBrow] = useState(false)
 
   const selectedThumbUp = (id: string) => {
     setThumbUp((prev) => (prev === id ? '' : id))
@@ -52,6 +53,10 @@ export default function Grid() {
   }
 
   const handleClick = (id: string) => {
+    setOpenEyeBrow(true)
+    setTimeout(() => {
+      setOpenEyeBrow(false)
+    }, 3000)
     setVoteAgainStates((prevStates) => ({
       ...prevStates,
       [id]: !prevStates[id],
@@ -155,7 +160,6 @@ export default function Grid() {
                           Vote Now
                         </button>
                       }
-
                     </div>
 
                     <div {...stylex.props(s.imageWrapper)}>
@@ -188,13 +192,60 @@ export default function Grid() {
           })}
         </div>
       </div>
+
+      <div {...stylex.props(s.eyeBrow, openEyeBrow && s.slideIn,  openEyeBrow === false && s.slideOut)}>
+        <div {...stylex.props(s.eyeBrowTitle)}>
+          <p>Thank you for your vote!</p>
+        </div>
+      </div>
     </main>
   )
 }
 
+const slideIn = stylex.keyframes({
+  '0%': { transform: 'translateY(-100%)' },
+  '25%': { transform: 'translateY(100%)'},
+  '50%': { transform: 'translateY(100%)'},
+  '100%': { transform: 'translateY(100%)' },
+})
+const slideOut = stylex.keyframes({
+  '0%': { transform: 'translateY(100%)' },
+  '100%': { transform: 'translateY(-100%)' },
+})
+
 const s = stylex.create({
   main: {
     margin: '0 24px'
+  },
+  eyeBrow: {
+    position: "fixed",
+    left: 0,
+    top: '-7%',
+    width: '100vw',
+    display: 'flex',
+    flexDirection: 'column',
+    height: "6%",
+    willChange: 'transform',
+    backgroundColor: colors.black,
+  },
+  eyeBrowTitle: {
+    display: 'flex',
+    fontSize: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: colors.white
+  },
+  slideIn: {
+    animationName: slideIn,
+    animationDuration: "3s",
+    animationFillMode: "forwards",
+    zIndex: 101
+  },
+  slideOut: {
+    animationName: slideOut,
+    animationDuration: "0.5s",
+    animationFillMode: "forwards",
+    zIndex: 101
   },
   overFlow: {
     margin: {
@@ -272,7 +323,7 @@ const s = stylex.create({
     position: 'relative',
     height: {
       default: 250,
-      '@media (max-width: 900px)': 528,
+      '@media (max-width: 900px)': 500,
     },
     width: {
       default: null,
@@ -286,7 +337,7 @@ const s = stylex.create({
     margin: '0 auto 24px',
     paddingRight: 24,
     position: 'relative',
-    height: 528,
+    height: 500,
     width: {
       default: 348,
       '@media (max-width: 900px)': 320
@@ -303,7 +354,7 @@ const s = stylex.create({
   votedM: {
     display: 'flex',
     zIndex: 5,
-    marginTop: 90
+    marginTop: 75
   },
   description: {
     color: colors.white,
@@ -509,7 +560,7 @@ const s = stylex.create({
     zIndex: 2,
     height: {
       default: 250,
-      '@media (max-width: 900px)': 528
+      '@media (max-width: 900px)': 500
     },
   },
   bgLinearM: {
@@ -518,7 +569,7 @@ const s = stylex.create({
     top: 0,
     left: 0,
     zIndex: 2,
-    height: 528,
+    height: 500,
     background: 'rgba(0,0,0, 0.3)',
   },
   imgBackground: {
@@ -528,13 +579,13 @@ const s = stylex.create({
     },
     height: {
       default: 250,
-      '@media (max-width: 900px)': 528
+      '@media (max-width: 900px)': 500
     },
     objectFit: 'cover'
   },
   imgBackgroundM: {
     width: '100%',
-    height: 528,
+    height: 500,
     objectFit: 'cover'
   },
   //header
@@ -568,6 +619,7 @@ const s = stylex.create({
     zIndex: 6,
   },
   headingList: {
+    display: 'flex',
     listStyleType: 'none',
     padding: '10px 20px 10px 24px',
     borderStyle: 'solid',

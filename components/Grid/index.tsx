@@ -13,41 +13,75 @@ import Loading from "../loading/Loading"
 export default function Grid() {
   const [dropdown, setDropdown] = useState(false)
   const [list, setList] = useState(false)
-  const [thumbUp, setThumbUp] = useState(false)
-  const [thumbDown, setThumbDown] = useState(false)
+  const [thumbUp, setThumbUp] = useState('')
+  const [thumbDown, setThumbDown] = useState('')
   const [voted, setVoted] = useState(false)
 
   const { data, loading, error } = usePeopleData()
 
   const resetValues = () => {
-    setThumbDown(false)
-    setThumbUp(false)
+    setThumbDown('')
+    setThumbUp('')
   }
 
-  const handleVoteClick = () => {
+  const handleVoteClick = async () => {
     if (voted) {
       setVoted(false)
       resetValues()
       return
     }
+    try {
+      if (thumbUp) {
+        const response = await fetch(`http://localhost:4000/people/${thumbUp}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ votes: { positive: 1 } }),
+        })
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        const data = await response.json()
+        console.log(data)
+      }
+
+      if (thumbDown) {
+        const response = await fetch(`http://localhost:4000/people/${thumbDown}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ votes: { negative: 1 } }),
+        })
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        const data = await response.json()
+        console.log(data)
+      }
+
+    } catch (error: any) {
+      console.error('Error updating votes:', error.message)
+    }
+
     setVoted(true)
-    resetValues()
   }
 
-  const selectedThumbUp = () => {
+  const selectedThumbUp = (e: string) => {
     if (voted) {
       return
     }
-    setThumbUp(!thumbUp)
-    setThumbDown(false)
+    setThumbUp(e)
+    setThumbDown('')
   }
 
-  const selectedThumbDown = () => {
+  const selectedThumbDown = (e: string) => {
     if (voted) {
       return
     }
-    setThumbDown(!thumbDown)
-    setThumbUp(false)
+    setThumbDown(e)
+    setThumbUp('')
   }
 
   return (
@@ -105,13 +139,13 @@ export default function Grid() {
                     </div>
 
                     <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
-                      <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
+                      <button onClick={() => selectedThumbUp(person._id)} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp === person._id && s.thumbUpOutline)} aria-label="thumbs up">
                         <ThumbUp />
                       </button>
-                      <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
+                      <button onClick={() => selectedThumbDown(person._id)} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown === person._id && s.thumbUpOutline)} aria-label="thumbs down">
                         <ThumbDown />
                       </button>
-                      <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                      <button onClick={handleVoteClick} {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown ? false : voted ? false : true} aria-label="vote button">
                         {voted ? 'Vote Again' : 'Vote Now'}
                       </button>
                     </div>

@@ -6,25 +6,9 @@ import { useEffect, useState } from "react"
 import ThumbUp from "../assets/ThumbUp"
 import ThumbDown from "../assets/ThumbDown"
 import Image from "next/image"
-import img from '../assets/imgs/Kanye-West.jpg'
 import { formatDateDistanceToNow } from "@/utils/formatDate"
-
-interface Votes {
-  positive: number;
-  negative: number;
-}
-
-interface Person {
-  votes: Votes;
-  _id: string;
-  name: string;
-  description: string;
-  category: string;
-  picture: string;
-  lastUpdated: string;
-}
-
-type PeopleArray = Person[];
+import { usePeopleData } from "../hooks/useFetchPeople"
+import Loading from "../loading/Loading"
 
 export default function Grid() {
   const [dropdown, setDropdown] = useState(false)
@@ -32,16 +16,8 @@ export default function Grid() {
   const [thumbUp, setThumbUp] = useState(false)
   const [thumbDown, setThumbDown] = useState(false)
   const [voted, setVoted] = useState(false)
-  const [data, setData] = useState<PeopleArray>([])
 
-  const fetchData = async () => {
-    const data = await fetch('http://localhost:4000/people')
-    const result = await data.json()
-    setData(result)
-  }
-  useEffect(() => {
-    fetchData()
-  }, [])
+  const { data, loading, error } = usePeopleData()
 
   const resetValues = () => {
     setThumbDown(false)
@@ -92,83 +68,84 @@ export default function Grid() {
       </div>
 
       <div {...stylex.props(s.overFlow)}>
-
         <div {...stylex.props(s.overFlowList, list ? s.listContainer : s.gridContainer)}>
+          {loading && <Loading />}
+          {error && <p>Hubo un Error</p>}
+          {data.map((person) => {
+            return (
+              <div {...stylex.props(s.container)} key={person._id}>
+                <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
 
-          {data.map((person) => (
-            <div {...stylex.props(s.container)} key={person._id}>
-              <div {...stylex.props(list ? s.wrapper : s.wrapperM)}>
+                  <div {...stylex.props(list ? s.voted : s.votedM)}>
 
-                <div {...stylex.props(list ? s.voted : s.votedM)}>
+                    <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
+                      {person.positivePercentage > person.negativePercentage ?
+                        <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                          <ThumbUp />
+                        </button>
+                        :
+                        <button {...stylex.props(s.votedCardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+                          <ThumbDown />
+                        </button>}
+                    </div>
 
-                  <div {...stylex.props(list ? s.votedLeft : s.votedLeftM)}>
-                    {person.votes.positive > person.votes.negative ?
-                      <button {...stylex.props(s.votedCardButtonIcon, s.thumbUp)} aria-label="thumbs up">
+                    <div {...stylex.props(s.description)}>
+                      <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>{person.name}</h1>
+                      <p>{person.description}</p>
+                    </div>
+
+                  </div>
+
+                  <div {...stylex.props(s.vote)}>
+
+                    <div {...stylex.props(s.voteParagraph)}>
+                      <div {...stylex.props(s.voteP)}>
+                        <p>{formatDateDistanceToNow(person.lastUpdated)}</p>
+                      </div>
+                    </div>
+
+                    <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
+                      <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
                         <ThumbUp />
                       </button>
-                      :
-                      <button {...stylex.props(s.votedCardButtonIcon, s.thumbDown)} aria-label="thumbs down">
+                      <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
                         <ThumbDown />
-                      </button>}
-                  </div>
+                      </button>
+                      <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
+                        {voted ? 'Vote Again' : 'Vote Now'}
+                      </button>
+                    </div>
 
-                  <div {...stylex.props(s.description)}>
-                    <h1 {...stylex.props(list ? s.descriptionH1 : s.descriptionH1M)}>{person.name}</h1>
-                    <p>{person.description}</p>
+                    <div {...stylex.props(s.imageWrapper)}>
+                      <Image
+                        {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
+                        src={person.picture}
+                        width={400}
+                        height={400}
+                        alt={person.name}
+                        role="none" />
+                    </div>
+
+                    <div {...stylex.props(s.porcentage)}>
+                      <div {...stylex.props(s.porcentageLeft)}>
+                        <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
+                        <span {...stylex.props(s.porcentageText)}>{person.positivePercentage}</span>
+                      </div>
+                      <div {...stylex.props(s.porcentageRight)}>
+                        <span {...stylex.props(s.porcentageText)}>{person.negativePercentage}</span>
+                        <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
+                      </div>
+                    </div>
+
+                    <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
                   </div>
 
                 </div>
-
-                <div {...stylex.props(s.vote)}>
-
-                  <div {...stylex.props(s.voteParagraph)}>
-                    <div {...stylex.props(s.voteP)}>
-                      <p>{formatDateDistanceToNow(person.lastUpdated)}</p>
-                    </div>
-                  </div>
-
-                  <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
-                    <button onClick={selectedThumbUp} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp && s.thumbUpOutline)} aria-label="thumbs up">
-                      <ThumbUp />
-                    </button>
-                    <button onClick={selectedThumbDown} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown && s.thumbUpOutline)} aria-label="thumbs down">
-                      <ThumbDown />
-                    </button>
-                    <button  {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown === true ? false : voted ? false : true} onClick={handleVoteClick} aria-label="vote button">
-                      {voted ? 'Vote Again' : 'Vote Now'}
-                    </button>
-                  </div>
-
-                  <div {...stylex.props(s.imageWrapper)}>
-                    <Image
-                      {...stylex.props(list ? s.imgBackground : s.imgBackgroundM)}
-                      src={person.picture}
-                      width={400}
-                      height={400}
-                      alt={person.name}
-                      role="none" />
-                  </div>
-
-                  <div {...stylex.props(s.porcentage)}>
-                    <div {...stylex.props(s.porcentageLeft)}>
-                      <span {...stylex.props(s.porcentageLeftIcon)}><ThumbUp /></span>
-                      <span {...stylex.props(s.porcentageText)}>25.5%</span>
-                    </div>
-                    <div {...stylex.props(s.porcentageRight)}>
-                      <span {...stylex.props(s.porcentageText)}>74.5%</span>
-                      <span {...stylex.props(s.porcentageIcon)}><ThumbDown /></span>
-                    </div>
-                  </div>
-
-                  <div {...stylex.props(list ? s.bgLinear : s.bgLinearM)}></div>
-                </div>
-
               </div>
-            </div>
-          ))}
+            )
+          })}
 
         </div>
-
       </div>
     </main>
   )
@@ -198,6 +175,7 @@ const s = stylex.create({
   },
 
   overFlowList: {
+    position: 'relative',
     maxWidth: 1100,
     display: {
       default: 'block',

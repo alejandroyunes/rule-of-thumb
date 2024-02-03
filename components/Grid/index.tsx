@@ -2,13 +2,17 @@
 import * as stylex from "@stylexjs/stylex"
 import { colors, spacing } from "../../app/globalTokens.stylex"
 import DownArrow from "../assets/DownArrow"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ThumbUp from "../assets/ThumbUp"
 import ThumbDown from "../assets/ThumbDown"
 import Image from "next/image"
 import { formatDateDistanceToNow } from "@/utils/formatDate"
 import { usePeopleData, useVote } from "../hooks/useFetchPeople"
 import Loading from "../loading/Loading"
+
+interface VoteAgainStates {
+  [personId: string]: boolean
+}
 
 export default function Grid() {
   const [thumbUp, setThumbUp] = useState('')
@@ -18,28 +22,50 @@ export default function Grid() {
   const [dropdown, setDropdown] = useState(false)
   const [list, setList] = useState(false)
   const [disabledButtons, setDisabledButtons] = useState<string[]>([])
+  const [voteAgainStates, setVoteAgainStates] = useState<VoteAgainStates>({})
 
   const selectedThumbUp = (id: string) => {
-    setThumbUp((prev) => (prev === id ? '' : id));
-    setThumbDown('');
+    setThumbUp((prev) => (prev === id ? '' : id))
+    setThumbDown('')
   }
 
   const selectedThumbDown = (id: string) => {
-    setThumbDown((prev) => (prev === id ? '' : id));
-    setThumbUp('');
+    setThumbDown((prev) => (prev === id ? '' : id))
+    setThumbUp('')
+  }
+
+  const handleSwitchButton = (id: string) => {
+    setVoteAgainStates((prevStates) => ({
+      ...prevStates,
+      [id]: !prevStates[id],
+    }))
+
+    if (disabledButtons.includes(id)) {
+      setDisabledButtons((prevDisabledButtons) =>
+        prevDisabledButtons.filter((el) => el !== id)
+      )
+    } else {
+      setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, id])
+    }
   }
 
   const handleClick = (id: string) => {
-    setThumbUp('');
-    setThumbDown('');
+    setVoteAgainStates((prevStates) => ({
+      ...prevStates,
+      [id]: !prevStates[id],
+    }))
+
+    setThumbUp('')
+    setThumbDown('')
+
     if (disabledButtons.includes(id)) {
 
       setDisabledButtons((prevDisabledButtons) =>
         prevDisabledButtons.filter((el) => el !== id)
-      );
+      )
     } else {
-      setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, id]);
-      handleVoteClick();
+      setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, id])
+      handleVoteClick()
     }
   }
 
@@ -101,6 +127,7 @@ export default function Grid() {
                       <button
                         onClick={() => selectedThumbUp(person._id)}
                         {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp === person._id && s.thumbUpOutline)}
+
                         aria-label="thumbs up">
                         <ThumbUp />
                       </button>
@@ -110,13 +137,23 @@ export default function Grid() {
                         aria-label="thumbs down">
                         <ThumbDown />
                       </button>
-                      <button
-                        onClick={() => handleClick(person._id)}
-                        {...stylex.props(list ? s.voteButton : s.voteButtonM)}
-                        disabled={disabledButtons.includes(person._id)}
-                        aria-label="vote button">
-                        {disabledButtons.includes(person._id) ? 'Vote Again' : 'Vote Now'}
-                      </button>
+                      {voteAgainStates[person._id] ?
+                        <button
+                          onClick={() => handleSwitchButton(person._id)}
+                          {...stylex.props(list ? s.voteButton : s.voteButtonM)}
+                          aria-label="vote button">
+                          Vote again
+                        </button>
+                        :
+                        <button
+                          onClick={() => handleClick(person._id)}
+                          {...stylex.props(list ? s.voteButton : s.voteButtonM)}
+                          disabled={disabledButtons.includes(person._id) || (thumbUp !== person._id && thumbDown !== person._id)}
+                          aria-label="vote button">
+                          Vote now
+                        </button>
+                      }
+
                     </div>
 
                     <div {...stylex.props(s.imageWrapper)}>

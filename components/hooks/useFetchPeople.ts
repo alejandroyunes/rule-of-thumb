@@ -46,5 +46,9 @@ export const usePeopleData = (): UsePeopleDataResult => {
     fetchData()
   }, [])
 
-  return { data, loading, error, refetchData: fetchData }
+  const refetchData = () => {
+    fetchData()
+  }
+
+  return { data, loading, error, refetchData }
 }

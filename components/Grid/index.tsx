@@ -16,8 +16,7 @@ export default function Grid() {
   const [thumbUp, setThumbUp] = useState('')
   const [thumbDown, setThumbDown] = useState('')
   const [voted, setVoted] = useState(false)
-
-  const { data, loading, error } = usePeopleData()
+  const { data, loading, error, refetchData } = usePeopleData()
 
   const resetValues = () => {
     setThumbDown('')
@@ -31,35 +30,21 @@ export default function Grid() {
       return
     }
     try {
-      if (thumbUp) {
-        const response = await fetch(`http://localhost:4000/people/${thumbUp}`, {
+      if (thumbUp || thumbDown) {
+        const response = await fetch(`http://localhost:4000/people/${thumbUp || thumbDown}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ votes: { positive: 1 } }),
+          body: JSON.stringify({ votes: { [thumbUp ? 'positive' : 'negative']: 1 } }),
         })
+  
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
-        const data = await response.json()
-        console.log(data)
-      }
+        refetchData()
 
-      if (thumbDown) {
-        const response = await fetch(`http://localhost:4000/people/${thumbDown}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ votes: { negative: 1 } }),
-        })
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-        const data = await response.json()
-        console.log(data)
-      }
+      } 
 
     } catch (error: any) {
       console.error('Error updating votes:', error.message)
@@ -178,7 +163,6 @@ export default function Grid() {
               </div>
             )
           })}
-
         </div>
       </div>
     </main>

@@ -7,7 +7,7 @@ import ThumbUp from "../assets/ThumbUp"
 import ThumbDown from "../assets/ThumbDown"
 import Image from "next/image"
 import { formatDateDistanceToNow } from "@/utils/formatDate"
-import { usePeopleData } from "../hooks/useFetchPeople"
+import { usePeopleData, useVote } from "../hooks/useFetchPeople"
 import Loading from "../loading/Loading"
 
 export default function Grid() {
@@ -17,41 +17,7 @@ export default function Grid() {
   const [thumbDown, setThumbDown] = useState('')
   const [voted, setVoted] = useState(false)
   const { data, loading, error, refetchData } = usePeopleData()
-
-  const resetValues = () => {
-    setThumbDown('')
-    setThumbUp('')
-  }
-
-  const handleVoteClick = async () => {
-    if (voted) {
-      setVoted(false)
-      resetValues()
-      return
-    }
-    try {
-      if (thumbUp || thumbDown) {
-        const response = await fetch(`http://localhost:4000/people/${thumbUp || thumbDown}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ votes: { [thumbUp ? 'positive' : 'negative']: 1 } }),
-        })
-  
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-        refetchData()
-
-      } 
-
-    } catch (error: any) {
-      console.error('Error updating votes:', error.message)
-    }
-
-    setVoted(true)
-  }
+  const { handleVoteClick } = useVote({ thumbUp, thumbDown, refetchData });
 
   const selectedThumbUp = (e: string) => {
     if (voted) {
@@ -130,7 +96,11 @@ export default function Grid() {
                       <button onClick={() => selectedThumbDown(person._id)} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown === person._id && s.thumbUpOutline)} aria-label="thumbs down">
                         <ThumbDown />
                       </button>
-                      <button onClick={handleVoteClick} {...stylex.props(list ? s.voteButton : s.voteButtonM)} disabled={thumbUp || thumbDown ? false : voted ? false : true} aria-label="vote button">
+                      <button
+                        onClick={handleVoteClick}
+                        {...stylex.props(list ? s.voteButton : s.voteButtonM)}
+                        disabled={thumbUp || thumbDown ? false : voted ? false : true}
+                        aria-label="vote button">
                         {voted ? 'Vote Again' : 'Vote Now'}
                       </button>
                     </div>

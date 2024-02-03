@@ -84,7 +84,6 @@ export const useVote = ({ thumbUp, thumbDown, refetchData }: UseVoteProps): UseV
 
         refetchData()
         const data = await response.json()
-        console.log(data)
       }
     } catch (error: any) {
       console.error('Error updating votes:', error.message)

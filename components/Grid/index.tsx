@@ -47,6 +47,8 @@ export default function Grid() {
     } else {
       setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, id])
     }
+    setThumbUp('')
+    setThumbDown('')
   }
 
   const handleClick = (id: string) => {
@@ -142,7 +144,7 @@ export default function Grid() {
                           onClick={() => handleSwitchButton(person._id)}
                           {...stylex.props(list ? s.voteButton : s.voteButtonM)}
                           aria-label="vote button">
-                          Vote again
+                          Vote Again
                         </button>
                         :
                         <button
@@ -150,7 +152,7 @@ export default function Grid() {
                           {...stylex.props(list ? s.voteButton : s.voteButtonM)}
                           disabled={disabledButtons.includes(person._id) || (thumbUp !== person._id && thumbDown !== person._id)}
                           aria-label="vote button">
-                          Vote now
+                          Vote Now
                         </button>
                       }
 

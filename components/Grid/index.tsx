@@ -11,28 +11,36 @@ import { usePeopleData, useVote } from "../hooks/useFetchPeople"
 import Loading from "../loading/Loading"
 
 export default function Grid() {
-  const [dropdown, setDropdown] = useState(false)
-  const [list, setList] = useState(false)
   const [thumbUp, setThumbUp] = useState('')
   const [thumbDown, setThumbDown] = useState('')
-  const [voted, setVoted] = useState(false)
   const { data, loading, error, refetchData } = usePeopleData()
-  const { handleVoteClick } = useVote({ thumbUp, thumbDown, refetchData });
+  const { handleVoteClick } = useVote({ thumbUp, thumbDown, refetchData })
+  const [dropdown, setDropdown] = useState(false)
+  const [list, setList] = useState(false)
+  const [disabledButtons, setDisabledButtons] = useState<string[]>([])
 
-  const selectedThumbUp = (e: string) => {
-    if (voted) {
-      return
-    }
-    setThumbUp(e)
-    setThumbDown('')
+  const selectedThumbUp = (id: string) => {
+    setThumbUp((prev) => (prev === id ? '' : id));
+    setThumbDown('');
   }
 
-  const selectedThumbDown = (e: string) => {
-    if (voted) {
-      return
+  const selectedThumbDown = (id: string) => {
+    setThumbDown((prev) => (prev === id ? '' : id));
+    setThumbUp('');
+  }
+
+  const handleClick = (id: string) => {
+    setThumbUp('');
+    setThumbDown('');
+    if (disabledButtons.includes(id)) {
+
+      setDisabledButtons((prevDisabledButtons) =>
+        prevDisabledButtons.filter((el) => el !== id)
+      );
+    } else {
+      setDisabledButtons((prevDisabledButtons) => [...prevDisabledButtons, id]);
+      handleVoteClick();
     }
-    setThumbDown(e)
-    setThumbUp('')
   }
 
   return (
@@ -55,7 +63,7 @@ export default function Grid() {
       <div {...stylex.props(s.overFlow)}>
         <div {...stylex.props(s.overFlowList, list ? s.listContainer : s.gridContainer)}>
           {loading && <Loading />}
-          {error && <p>Hubo un Error</p>}
+          {error && <p>There was an error</p>}
           {data.map((person) => {
             return (
               <div {...stylex.props(s.container)} key={person._id}>
@@ -90,18 +98,24 @@ export default function Grid() {
                     </div>
 
                     <div {...stylex.props(list ? s.voteBottons : s.voteBottonsM)}>
-                      <button onClick={() => selectedThumbUp(person._id)} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp === person._id && s.thumbUpOutline)} aria-label="thumbs up">
+                      <button
+                        onClick={() => selectedThumbUp(person._id)}
+                        {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbUp, thumbUp === person._id && s.thumbUpOutline)}
+                        aria-label="thumbs up">
                         <ThumbUp />
                       </button>
-                      <button onClick={() => selectedThumbDown(person._id)} {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown === person._id && s.thumbUpOutline)} aria-label="thumbs down">
+                      <button
+                        onClick={() => selectedThumbDown(person._id)}
+                        {...stylex.props(list ? s.cardButtonIcon : s.cardButtonIconM, s.thumbDown, thumbDown === person._id && s.thumbUpOutline)}
+                        aria-label="thumbs down">
                         <ThumbDown />
                       </button>
                       <button
-                        onClick={handleVoteClick}
+                        onClick={() => handleClick(person._id)}
                         {...stylex.props(list ? s.voteButton : s.voteButtonM)}
-                        disabled={thumbUp || thumbDown ? false : voted ? false : true}
+                        disabled={disabledButtons.includes(person._id)}
                         aria-label="vote button">
-                        {voted ? 'Vote Again' : 'Vote Now'}
+                        {disabledButtons.includes(person._id) ? 'Vote Again' : 'Vote Now'}
                       </button>
                     </div>
 

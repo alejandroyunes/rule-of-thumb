@@ -11,17 +11,17 @@ import Grid from "@/components/Grid"
 export default function Home() {
   return (
     <>
-      {/* <div {...stylex.props(s.desktopNav)}>
+      <div {...stylex.props(s.desktopNav)}>
         <DesktopNav />
       </div>
       <div {...stylex.props(s.mobileNav)}>
         <MobileNav />
-      </div> */}
-      {/* <Hero /> */}
-      {/* <Banner /> */}
+      </div>
+      <Hero /> */}
+      {/* <Banner />
       <Grid />
-      {/* <BannerSubmit />
-      <Footer /> */}
+      <BannerSubmit />
+      <Footer />
     </>
   )
 }
